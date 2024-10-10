@@ -1,62 +1,129 @@
 import express from "express";
 import Alert from "../models/alertSchema.js";
+import authMiddleware from "../middlewares/authMiddleware.js";
 
 const Alertrouter = express.Router();
 
 //Creating Alert
-Alertrouter.post("/create", async(req, res) => {
+Alertrouter.post("/create", authMiddleware, async(req, res) => {
     try{
-        const {userId, coinId, targetPrice, email} = req.body;
+        const{coinId, targetPrice, email} = req.body;
 
-        const newAlert = new Alert({userId, coinId, targetPrice, email});
+        const newAlert = new Alert({
+            userId: req.user,
+            coinId,
+            targetPrice,
+            email
+        });
         await newAlert.save();
 
         res.status(201).json({
-            message: "Alert Created Successfully"
+            message: "Alert created successfully"
         });
-    } catch (error){
-        res.status(500).json({error: "Alert couldn't be created"});
+    }catch(error){
+        console.error("Error creating alert:", error);
+        res.status(500).json({
+            error: "Alert not created"
+        });
     }
 });
 
 
 //Fetching All Alerts
-Alertrouter.get('/', async(req, res) => {
+Alertrouter.get('/', authMiddleware ,async(req, res) => {
     try{
-        const alerts = await Alert.find();  
-        res.status(200).json(alerts);
-    }catch (error){
-        res.status(500).json({error: "Failed to fetch alerts"});
+        const alert = await Alert.find({
+            userId: req.user
+        });
+        res.status(200).json(alert);
+    }catch(error){
+        console.error("Error fetching alerts:", error);
+        res.status(500).json({
+            error: "Failed to fetch alerts"
+        });
+    }
+});
+
+//Fetching One Alerts
+Alertrouter.get('/:id', authMiddleware ,async(req, res) => {
+    try{
+        const alert = await Alert.find({
+            _id: req.param.id,
+            userId: req.user
+        });
+        if(!alert){
+            return res.status(404).json({
+                error: "Alert not found"
+            });
+        }
+
+        res.status(200).json(alert);
+    }catch(error){
+        console.error("Error fetching alerts:", error);
+        res.status(500).json({
+            error: "Failed to fetch alerts"
+        });
     }
 });
 
 
 //Updating Alert
-Alertrouter.put('/update/:id', async(req, res) => {
-    try{
-        const updatedAlert = await Alert.findByIdAndUpdate(req.params.id, req.body, {new: true});
-        if (!updatedAlert) {
-            return res.status(404).json({error: "Alert not found"});
+Alertrouter.put('/update/:id', authMiddleware, async (req, res) => {
+    try {
+        const { targetPrice } = req.body; 
+
+        if (!targetPrice) {
+            return res.status(400).json({
+                error: "Target price is required to update"
+            });
         }
+
+        const updatedAlert = await Alert.findOneAndUpdate(
+            {
+                _id: req.params.id,
+                userId: req.user 
+            },
+            { targetPrice }, 
+            { new: true }  
+        );
+
+        if (!updatedAlert) {
+            return res.status(404).json({
+                error: "Alert not found"
+            });
+        }
+
         res.status(200).json(updatedAlert);
-    } catch(error){
-        res.status(500).json({error: "Failed to update alert"});
+    } catch (error) {
+        console.error("Error updating alert:", error);
+        res.status(500).json({
+            error: "Failed to update alert"
+        });
     }
 });
 
 
 //Deleting Alert
-Alertrouter.delete("/delete/:id", async(req, res) => {
-    try{
-        const deletedAlert = await Alert.findByIdAndDelete(req.params.id);
-        if (!deletedAlert) {
-            return res.status(404).json({error: "Alert not found"});
+Alertrouter.delete("/delete/:id", authMiddleware, async(req, res) => {
+    try{      
+        const deletedAlert = await Alert.findOneAndDelete({
+            _id:req.params.id,
+            userId: req.user
+        })
+        if(!deletedAlert){
+            return res.status(404).json({
+                error: "Alert not found"
+            });
         }
-        res.status(200).json({message: "Alert deleted successfully"});
+        res.status(200).json({
+            message: "Alert deleted successfully"
+        });
     }catch(error){
-        res.status(500).json({error: "Failed to delete alert"});
+        console.error("Error deleting alert:", error);
+        res.status(500).json({
+            error: "Failed to delete Alert"
+        });
     }
 });
-
 
 export default Alertrouter;
