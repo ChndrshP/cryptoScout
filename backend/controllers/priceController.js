@@ -1,6 +1,6 @@
 import axios from "axios";
 
-async function getCoinPrice(coinId) {
+export async function getCoinPrice(coinId) {
     const url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=USD&ids=${coinId}`;
 
     try {
@@ -18,5 +18,3 @@ async function getCoinPrice(coinId) {
         console.log('Error fetching coin data:', error);
     }
 }
-
-export { getCoinPrice };
