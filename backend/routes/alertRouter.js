@@ -1,10 +1,10 @@
 import express from "express";
-import Alert from "../models/schema.js";
+import Alert from "../models/alertSchema.js";
 
-const router = express.Router();
+const Alertrouter = express.Router();
 
 //Creating Alert
-router.post("/create", async(req, res) => {
+Alertrouter.post("/create", async(req, res) => {
     try{
         const {userId, coinId, targetPrice, email} = req.body;
 
@@ -21,7 +21,7 @@ router.post("/create", async(req, res) => {
 
 
 //Fetching All Alerts
-router.get('/', async(req, res) => {
+Alertrouter.get('/', async(req, res) => {
     try{
         const alerts = await Alert.find();  
         res.status(200).json(alerts);
@@ -32,7 +32,7 @@ router.get('/', async(req, res) => {
 
 
 //Updating Alert
-router.put('/update/:id', async(req, res) => {
+Alertrouter.put('/update/:id', async(req, res) => {
     try{
         const updatedAlert = await Alert.findByIdAndUpdate(req.params.id, req.body, {new: true});
         if (!updatedAlert) {
@@ -46,7 +46,7 @@ router.put('/update/:id', async(req, res) => {
 
 
 //Deleting Alert
-router.delete("/delete/:id", async(req, res) => {
+Alertrouter.delete("/delete/:id", async(req, res) => {
     try{
         const deletedAlert = await Alert.findByIdAndDelete(req.params.id);
         if (!deletedAlert) {
@@ -59,4 +59,4 @@ router.delete("/delete/:id", async(req, res) => {
 });
 
 
-export default router;
+export default Alertrouter;
