@@ -23,7 +23,7 @@ router.post("/create", async(req, res) => {
 //Fetching All Alerts
 router.get('/', async(req, res) => {
     try{
-        const alerts = await Alert.find();  // Corrected variable name
+        const alerts = await Alert.find();  
         res.status(200).json(alerts);
     }catch (error){
         res.status(500).json({error: "Failed to fetch alerts"});
