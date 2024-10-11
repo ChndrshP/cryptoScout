@@ -2,7 +2,8 @@ import express from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/userSchema.js";
-import {sendOTP} from "../utils/email.js";
+import crypto from 'node:crypto';
+import {sendOTP, sendResetPasswordEmail} from "../utils/email.js";
 
 const userRouter = express.Router();
 
@@ -73,8 +74,7 @@ userRouter.post("/register/verify", async (req, res) => {
       console.error(error);
       res.status(500).json({ error: "Server Error" });
     }
-  });
-  
+});
 
 //Login
 userRouter.post("/login", async(req, res) =>{
@@ -83,11 +83,19 @@ userRouter.post("/login", async(req, res) =>{
         const user = await User.findOne({email});
 
         if(!user){
-            return res.status(400).json({message: "Invalid Credentials"});
+            return res.status(400).json({message: "Please Register First"});
         }
 
         if(!user.isVerified){
             return res.status(400).json({message: "Please verify your email"});
+        }
+
+        if(!password){
+            return res.status(400).json({message: "Please enter password"});
+        }
+
+        if(!email){
+            return res.status(400).json({message: "Please enter email"});
         }
 
         const isMatch =  await bcrypt.compare(password, user.password);
@@ -103,6 +111,74 @@ userRouter.post("/login", async(req, res) =>{
         console.error(error);
         res.status(500).json({error: "Server Error"});
     }
-});;
+});
+
+//Forgot Password
+userRouter.post("/forgot-password", async(req, res) => {
+  try{
+    const {email} = req.body;
+    const user = await User.findOne({email});
+
+    if(!user){
+      return res.status(400).json({
+        message: "User with this email does not exist"
+      });
+    }
+
+    //Generating token and expiration time
+    const resetToken = crypto.randomBytes(20).toString('hex');
+    const resetTokenExpires = Date.now() + 3600000; // 1 hour
+
+    user.resetPasswordToken = resetToken;
+    user.resetPasswordExpires = resetTokenExpires;
+    await user.save();
+
+    const resetLink = `${process.env.BACKEND_URL}/reset-password/${resetToken}`;
+    await sendResetPasswordEmail(user.email, resetLink);
+
+    res.status(200).json({
+      message: "Password reset link sent to your email"
+    });
+  }catch(error){
+    console.error(error);
+    res.status(500).json({
+      error: "Server error"
+    });
+  }
+});
+
+//Reset password
+userRouter.post("/reset-password/:token",async(req, res) => {
+  try{
+    const {token} = req.params;
+    const {password} = req.body;
+
+    const user = await User.findOne({
+      resetPasswordToken: token, 
+      resetPasswordExpires: {$gt: Date.now()},
+    });
+    if(!user){
+      return res.status(400).json({
+        message:"Invalid or expired reset token"
+      });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    user.password = hashedPassword;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
+    await user.save();
+
+    res.status(200).json({
+      message: "Password has been changed Successfully"
+    });
+  }catch(error){
+    console.error(error);
+    res.status(500).json({
+      error: "Server Error"
+    });
+  }
+})
 
 export default userRouter;
