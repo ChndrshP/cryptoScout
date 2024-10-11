@@ -1,14 +1,14 @@
 import nodemailer from 'nodemailer';
 
-async function sendEmail(to, subject, text) {
-    let transporter = nodemailer.createTransport({
-        service: process.env.EMAIL_SERVICE,
-        auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS,
-        },
-    });
+const transporter = nodemailer.createTransport({
+    service: process.env.EMAIL_SERVICE,
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+    },
+});
 
+export const sendEmail = async (to, subject, text) => {
     let mailOption = {
         from: process.env.EMAIL_USER,
         to: to,
@@ -24,15 +24,8 @@ async function sendEmail(to, subject, text) {
     }
 }
 
-async function sendOTP(email, otp) {
-    let transporter = nodemailer.createTransport({
-        service: process.env.EMAIL_SERVICE,
-        auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS,
-        },
-    });
 
+export const sendOTP = async (email, otp) => {
     let mailOption = {
         from: process.env.EMAIL_USER,
         to: email,
@@ -41,10 +34,23 @@ async function sendOTP(email, otp) {
     };
     try {
         await transporter.sendMail(mailOption);
-        console.log("Email Send Successfully");
+        console.log("OTP Sent Successfully");
     } catch (error) {
         console.error('Error sending email:', error);
     }
 }
 
-export { sendEmail, sendOTP };
+export const sendResetPasswordEmail = async (email, resetLink) => {
+    let mailOption = {
+        from: 'no-reply@CryptoScout.com',
+        to: email,
+        subject: 'Password Reset Request',
+        text: `You requested a password reset. Click on this link to reset your password: ${resetLink}`
+    };
+    try {
+        await transporter.sendMail(mailOption);
+        console.log("Reset Link Send Successfully");
+    } catch (error) {
+        console.error('Error sending email:', error);
+    }
+}
