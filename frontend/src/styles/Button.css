@@ -1,0 +1,21 @@
+.btn{
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+}
+
+.btn.primary{
+    background-color: #212831;
+    color: white;
+}
+
+.btn.secondary{
+    background-color: #212831;
+    color: white;
+}
+
+.btn:hover{
+    opacity: 0.9;
+}

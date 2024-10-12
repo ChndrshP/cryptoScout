@@ -1,9 +1,45 @@
 import React from 'react'
+import {Link} from 'react-router-dom';
+import Button from '../components/Button';
+import '../styles/LandingPage.css';
 
 const LandingPage = () => {
   return (
-    <div>LandingPage</div>
+    <div className='landing-page'>
+      <div className='hero-section'>
+        <h1>Welcome to CryptoScout</h1>
+        <p>Track your favourite cryptocurrency prices and get real-time alerts</p>
+        <div className='cta-buttons'>
+          <Link to="/signup">
+            <Button variant='primary'>Get Started</Button>
+          </Link>
+          <Link to="/login">
+            <Button variant='secondary'>Login</Button>
+          </Link>
+        </div>
+      </div>
+      <div className='feature-section'>
+        <h2>Features</h2>
+        <div className='feature-list'>
+          <div className='feature-item'>
+            <img src=" " alt ="Track"/>
+            <h3>Real-time Tracking</h3>
+            <p>Monitor the market in real-time and stay updated with live price changes.</p>
+          </div>
+          <div className='feature-item'>
+            <img src=" " alt="Alerts"/>
+            <h3>Price Alert</h3>
+            <p>Set custom alerts to never miss an oppurtunity with your favourite coins.</p>
+          </div>
+          <div className="feature-item">
+            <img src="/assets/security.png" alt="Security" />
+            <h3>Secure Authentication</h3>
+            <p>Safeguard your account with secure login and verification methods.</p>
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }
 
-export default LandingPage
+export default LandingPage;
