@@ -1,5 +1,5 @@
 .landing-page {
-    padding: 50px 20px;
+    padding: 50px 20px 5px;
     text-align: center;
 }
 
@@ -26,7 +26,8 @@
 
 .feature-section {
     background-color: #f9f9f9;
-    padding: 50px 0;
+    padding: 50px 0 ;
+    margin-bottom: 90px;
 }
 
 .feature-list {
@@ -114,4 +115,8 @@
     .feature-item p {
         font-size: 0.8rem;
     }
+}
+
+body {
+    overflow: auto;
 }

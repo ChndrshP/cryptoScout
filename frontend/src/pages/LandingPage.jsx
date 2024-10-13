@@ -2,6 +2,7 @@ import React from 'react'
 import {Link} from 'react-router-dom';
 import Button from '../components/Button';
 import '../styles/LandingPage.css';
+import Footer from '../components/Footer';
 
 const LandingPage = () => {
   return (
@@ -37,6 +38,9 @@ const LandingPage = () => {
             <p>Safeguard your account with secure login and verification methods.</p>
           </div>
         </div>
+      </div>
+      <div className='footer'>
+        <Footer/>
       </div>
     </div>
   )
