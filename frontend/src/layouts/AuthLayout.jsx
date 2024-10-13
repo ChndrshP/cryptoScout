@@ -1,10 +1,10 @@
 import React from 'react';
 
-const AuthLayout = ({ childern }) => {
+const AuthLayout = ({ children }) => {
     return (
         <div className='auth-layout'>
             <div className='auth-container'>
-                {childern}
+                {children}
             </div>
         </div>
     );
