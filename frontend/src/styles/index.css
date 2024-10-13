@@ -1,0 +1,46 @@
+:root {
+  --background-color: #ffffff;
+  --text-color: #333333;
+  --primary-color: #007bff;
+  --secondary-color: #6c757d;
+  --header-bg: #f8f9fa;
+  --footer-bg: #f1f1f1;
+  --input-bg: #ffffff;
+  --placeholder-color: #aaa;
+}
+
+body.dark {
+  --background-color: #181818;
+  --text-color: #f0f0f0;
+  --primary-color: #1DB954;
+  --secondary-color: #c5c6c7;
+  --header-bg: #212121;
+  --footer-bg: #181818;
+  --input-bg: #2c2c2c;
+  --placeholder-color: #ccc;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+a {
+  color: var(--primary-color);
+}
+
+a:hover {
+  color: darken(var(--primary-color), 10%); /* Use a darker shade for hover */
+}
+
+input, textarea, select {
+  background-color: var(--input-bg);
+  color: var(--text-color);
+}
+
+button {
+  font-family: inherit;
+}

@@ -1,21 +1,32 @@
-.btn{
-    padding: 10px 20px;
+/* src/styles/Button.css */
+.btn {
+    padding: 0.75rem 1.5rem;
     font-size: 1rem;
     cursor: pointer;
     border-radius: 5px;
     border: none;
+    transition: background-color 0.3s ease;
 }
 
-.btn.primary{
-    background-color: #212831;
+.btn.primary {
+    background-color: var(--primary-color);
     color: white;
 }
 
-.btn.secondary{
-    background-color: #212831;
+.btn.secondary {
+    background-color: var(--secondary-color);
     color: white;
 }
 
-.btn:hover{
-    opacity: 0.9;
+.btn.primary:hover {
+    background-color: darken(var(--primary-color), 50%);
+}
+
+.btn.secondary:hover {
+    background-color: darken(var(--secondary-color), 50%);
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }

@@ -9,7 +9,7 @@ const AuthProvider = ({ children }) => {
     const [loading, setLoading] = React.useState(true);
 
     const login = async (email, password) => {
-        const response = await axios.post(`${process.env.VITE_BACKEND_URL || import.meta.env.VITE_BACKEND_URL}/api/auth/login`, { email, password });
+        const response = await axios.post(`http://localhost:5000/api/auth/login`, { email, password });
         const { token } = response.data;
         setAuthToken(token);
         localStorage.setItem('authToken', token);
@@ -18,7 +18,7 @@ const AuthProvider = ({ children }) => {
     };
 
     const signup = async (email, password) => {
-        const response = await axios.post(`${process.env.VITE_BACKEND_URL || import.meta.env.VITE_BACKEND_URL}/api/auth/register`, { email, password });
+        const response = await axios.post(`http://localhost:5000/api/auth/register`, { email, password });
         const { token } = response.data;
         setAuthToken(token);
         localStorage.setItem('authToken', token);
