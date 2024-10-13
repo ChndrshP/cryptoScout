@@ -5,6 +5,7 @@ import { AuthProvider } from './context/AuthContext';
 import AuthLayout from './layouts/AuthLayout';
 import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
+import SignupPage from './pages/SignupPage';
 
 const App = () => {
   return (
@@ -14,8 +15,8 @@ const App = () => {
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<AuthLayout> <LoginPage/> </AuthLayout>}/>
-            {/*<Route path="/signup" element={<AuthLayout> <SignupPage/> </AuthLayout>}/>
-            <Route path="/forgot-password" element={<AuthLayout> <ForgotPasswordPage/> </AuthLayout>}/>
+            <Route path="/signup" element={<AuthLayout> <SignupPage/> </AuthLayout>}/>
+            {/*<Route path="/forgot-password" element={<AuthLayout> <ForgotPasswordPage/> </AuthLayout>}/>
             <Route path="/enter-otp" element={<AuthLayout> <EnterOtpPage/> </AuthLayout>}/>
             <Route path="/home" element={<MainLayout> <HomePage/> </MainLayout>}/>
             <Route path="/alert" element={<MainLayout> <AlertPage/> </MainLayout>}/> */}
