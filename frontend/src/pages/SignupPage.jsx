@@ -36,7 +36,7 @@ const SignupPage = () => {
         setLoading(true);
         try{
             await signup(email, password);
-            navigate('/home');
+            navigate('/enter-otp', {state: {email}});
         }catch(err){
             setError(err.response?.data?.message || 'Signup failed');
         }finally{
