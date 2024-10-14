@@ -15,7 +15,7 @@ const LandingPage = () => {
             <Button variant='primary'>Get Started</Button>
           </Link>
           <Link to="/login">
-            <Button variant='secondary'>Login</Button>
+            <Button variant='primary'>Login</Button>
           </Link>
         </div>
       </div>
