@@ -9,6 +9,8 @@ import SignupPage from './pages/SignupPage';
 import EnterOtpPage from './pages/EnterOtpPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
+import MainLayout from './layouts/MainLayout';
+import HomePage from './pages/Home';
 
 const App = () => {
   return (
@@ -22,8 +24,8 @@ const App = () => {
             <Route path="/enter-otp" element={<AuthLayout> <EnterOtpPage/> </AuthLayout>}/>
             <Route path="/forgot-password" element={<AuthLayout> <ForgotPasswordPage/> </AuthLayout>}/>
             <Route path="/reset-password/:token" element={<AuthLayout><ResetPasswordPage /></AuthLayout>} />
-            {/*<Route path="/home" element={<MainLayout> <HomePage/> </MainLayout>}/>
-            <Route path="/alert" element={<MainLayout> <AlertPage/> </MainLayout>}/> */}
+            <Route path="/home" element={<MainLayout> <HomePage/> </MainLayout>}/>
+            {/*<Route path="/alert" element={<MainLayout> <AlertPage/> </MainLayout>}/> */}
           </Routes>
         </Router>
       </AuthProvider>

@@ -1,7 +1,7 @@
 import React, {useContext} from "react";
 import {Link} from "react-router-dom";
-import {ThemeContext} from "../contexts/ThemeContext";
-import {AuthContext} from "../contexts/AuthContext";
+import {ThemeContext} from "../context/ThemeContext";
+import {AuthContext} from "../context/AuthContext";
 import Button from '../components/Button';
 
 const Header = () => {
