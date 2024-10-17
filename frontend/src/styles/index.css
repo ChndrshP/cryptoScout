@@ -44,3 +44,27 @@ input, textarea, select {
 button {
   font-family: inherit;
 }
+@media (max-width: 768px) {
+  .header, .footer {
+      flex-direction: column;
+      text-align: center;
+  }
+
+  .nav-links {
+      flex-direction: column;
+      gap: 0.5rem;
+  }
+
+  .search-results {
+      max-height: 200px;
+  }
+
+  .features-list {
+      flex-direction: column;
+      align-items: center;
+  }
+
+  .features-list .feature-item {
+      max-width: 300px;
+  }
+}

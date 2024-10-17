@@ -9,7 +9,7 @@ export const createAlert = async(alertData, token) => {
             'Authorization': token
         }
     };
-    const response = await axios.post(`${API_URL}/api/aletrs/create`, alertData, config);
+    const response = await axios.post(`${API_URL}/api/alerts/create`, alertData, config);
     return response.data;
 };
 

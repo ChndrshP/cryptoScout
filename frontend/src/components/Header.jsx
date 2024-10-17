@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import {ThemeContext} from "../context/ThemeContext";
 import {AuthContext} from "../context/AuthContext";
 import Button from '../components/Button';
+import '../styles/Header.css';
 
 const Header = () => {
     const {theme, toggleTheme} = useContext(ThemeContext);
