@@ -105,5 +105,6 @@ const ResetPasswordPage = () => {
         </div>
     );
 };
+//export
 
 export default ResetPasswordPage;
