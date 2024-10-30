@@ -1,6 +1,7 @@
 .landing-page {
     padding: 5px 20px 5px;
     text-align: center;
+    position: relative;
 }
 
 .hero-section {
@@ -56,6 +57,13 @@
     font-size: 1rem;
     color: #777;
 }
+
+.top-right-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 10;
+  }
 
 /* Media Queries for responsiveness */
 @media (max-width: 768px) {

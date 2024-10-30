@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
-import {createAlert, getAlerts, updateAlert, deleteAlert} from "../services/alertServices";
+import { createAlert, getAlerts, updateAlert, deleteAlert } from "../services/alertServices";
 import Button from "../components/Button";
 import AlertCard from "../components/AlertCard";
 import '../styles/AlertPage.css';
@@ -10,44 +10,46 @@ const AlertPage = () => {
     const [alerts, setAlerts] = useState([]);
     const [formData, setFormData] = useState({
         coinId: '',
-        targetPrice:''
+        targetPrice: ''
     });
 
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
-    const{coinId, targetPrice} = formData;
+    const { coinId, targetPrice } = formData;
 
     useEffect(() => {
         const fetchAlerts = async () => {
-            try{
+            try {
                 const data = await getAlerts(authToken);
                 setAlerts(data);
-            }catch(err){
+            } catch (err) {
                 setError('Failed to fetch alerts');
             }
         };
         fetchAlerts()
     }, [authToken]);
 
-    const onChange = e => setFormData({...formData, [e.target.name]: e.target.value});
+    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
     const onSubmit = async e => {
         e.preventDefault();
         setLoading(true);
         setError('');
 
-        try{
+        try {
             const newAlert = await createAlert({
                 coinId,
                 targetPrice,
-                email: 'chandresh2003cp@gmail.com'
+                email: 'undefined'
             }, authToken);
             setAlerts([...alerts, newAlert]);
-            setFormData({coinId:'', targetPrice:''});
-        }catch(err){
+            setFormData({ coinId: '', targetPrice: '' });
+        } catch (err) {
             setError(err.response?.data?.error || 'Failed to create alert');
-        }finally{
+            console.log(err);
+            
+        } finally {
             setLoading(false);
         }
     };
@@ -76,24 +78,24 @@ const AlertPage = () => {
             {error && <div className="error-message">{error}</div>}
             <form className="alert-form" onSubmit={onSubmit}>
                 <label htmlFor="coinId">Coin ID</label>
-                <input 
-                    type="text" 
-                    id="coinId" 
-                    name="coinId" 
-                    value={coinId} 
-                    onChange={onChange} 
-                    required 
+                <input
+                    type="text"
+                    id="coinId"
+                    name="coinId"
+                    value={coinId}
+                    onChange={onChange}
+                    required
                     placeholder="e.g., bitcoin"
                 />
 
                 <label htmlFor="targetPrice">Target Price (USD)</label>
-                <input 
-                    type="number" 
-                    id="targetPrice" 
-                    name="targetPrice" 
-                    value={targetPrice} 
-                    onChange={onChange} 
-                    required 
+                <input
+                    type="number"
+                    id="targetPrice"
+                    name="targetPrice"
+                    value={targetPrice}
+                    onChange={onChange}
+                    required
                     placeholder="e.g., 30000"
                 />
 
@@ -105,12 +107,16 @@ const AlertPage = () => {
             <div className="alerts-list">
                 {alerts.length > 0 ? (
                     alerts.map(alert => (
-                        <AlertCard 
-                            key={alert._id} 
-                            alert={alert} 
-                            onDelete={() => handleDelete(alert._id)}
-                            onUpdate={(updatedData) => handleUpdate(alert._id, updatedData)}
-                        />
+                        <>
+                            <AlertCard
+                                key={alert._id}
+                                alert={alert}
+                                onDelete={() => handleDelete(alert._id)}
+                                onUpdate={(updatedData) => handleUpdate(alert._id, updatedData)}
+                            />
+                            {console.log(alert)}
+                        </>
+
                     ))
                 ) : (
                     <p>No alerts found. Create one!</p>

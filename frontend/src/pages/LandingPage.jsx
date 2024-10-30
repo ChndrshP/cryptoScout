@@ -1,12 +1,19 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import {Link} from 'react-router-dom';
 import Button from '../components/Button';
 import '../styles/LandingPage.css';
 import Footer from '../components/Footer';
+import {ThemeContext} from "../context/ThemeContext";
 
 const LandingPage = () => {
+  const {theme, toggleTheme} = useContext(ThemeContext);
   return (
     <div className='landing-page'>
+      <div className='top-right-button'>
+        <Button onClick={toggleTheme} variant='secondary'>
+          {theme === 'light' ? '🌙' : '☀️'}
+        </Button>
+      </div>
       <div className='hero-section'>
         <h1>Welcome to <span style={{ textDecoration: 'underline black' }}>CryptoScout</span></h1>
         <p>Track your favourite cryptocurrency prices and get real-time alerts</p>
